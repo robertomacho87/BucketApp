@@ -32,21 +32,17 @@ namespace BucketApp
 
         public virtual void Fill(int ammount)
         {
-            var overflow = Content + ammount - Capacity;
+            if (ammount < 1) ammount = 0;
+
+            var overflow = 0;
 
             if ((Content + ammount) >= Capacity)
             {
+                overflow = Content + ammount - Capacity;
                 RaiseFilledEvent(overflow);
             }
-            if(Overflowing)
-            {
-                Content += ammount;
-            } else 
-            {
-                Content += ammount - overflow;
-            }
             
-            Console.WriteLine(Capacity);
+            Content += ammount - overflow;
         }
 
         public virtual void Fill<T>(T input) where T : Container

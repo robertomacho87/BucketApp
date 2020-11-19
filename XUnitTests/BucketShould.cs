@@ -41,13 +41,33 @@ namespace XUnitTests
         {
             Bucket sut = new Bucket();
 
-
             var evt = Assert.Raises<FilledEventArgs>(handler => sut.Full += handler, 
                                             handler => sut.Full -= handler, 
                                             ()=> { sut.Fill(110); });
 
-            Assert.Equal(9, evt.Arguments.Overflow);
-            
+            Assert.Equal(10, evt.Arguments.Overflow);
         }
+
+        [Fact]
+        public void FillBucketWithBucket()
+        {
+            Bucket sut = new Bucket();
+
+            sut.Fill(new Bucket(content: 10));
+
+            Assert.Equal(10, sut.Content);
+        }
+
+        [Fact]
+        public void EmptyBucket()
+        {
+            Bucket sut = new Bucket();
+
+            sut.Empty();
+
+            Assert.Equal(0, sut.Content);
+        }
+
+        
     }
 }
