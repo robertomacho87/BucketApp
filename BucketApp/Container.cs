@@ -6,23 +6,23 @@ namespace BucketApp
     {
         public int Capacity { get; set; }
 
-        public int Content { get; set; } 
+        public int Content
+        {
+            get { return content; }
+            set { if (value > 0) content = value; }
+        }
+        private int content;
 
-        bool Overflowing = true;
+        public bool Overflowing = true;
 
         public delegate void FilledEventHandler(object sender, FilledEventArgs e);
 
         public event FilledEventHandler Full;
 
-        public Container(int content, int capacity = 100)
+        public Container(int content = 0, int capacity = 100)
         {
             this.Capacity = capacity;
             this.Content = content;
-        }
-
-        public Container()
-        {
-
         }
 
         public virtual void RaiseFilledEvent(int overflow = 0)
@@ -61,8 +61,13 @@ namespace BucketApp
 
         public virtual void Empty(int amount)
         {
-            if (amount >= Content) Content = 0;
-            this.Content -= amount;
+            if (amount >= Content)
+            {
+                Content = 0;
+            } else
+            {
+                this.Content -= amount;
+            }
         }
 
     }
