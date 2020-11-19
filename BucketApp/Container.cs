@@ -15,9 +15,9 @@ namespace BucketApp
 
         public bool Overflowing = true;
 
-        public delegate void FilledEventHandler(object sender, FilledEventArgs e);
+        //public delegate void FilledEventHandler(object sender, FilledEventArgs e);
 
-        public event FilledEventHandler Full;
+        public event EventHandler<FilledEventArgs> Full;
 
         public Container(int content = 0, int capacity = 100)
         {

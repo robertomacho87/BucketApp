@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BucketApp
 {
-    public class FilledEventArgs
+    public class FilledEventArgs : EventArgs
     {
         public FilledEventArgs()
         {

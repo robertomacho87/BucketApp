@@ -36,13 +36,17 @@ namespace XUnitTests
             Assert.Equal(10, sut.Content);
         }
 
-        public void RaiseFilledEvent()
+        [Fact]
+        public void RaiseFullEvent()
         {
             Bucket sut = new Bucket();
 
-            sut.Fill(100);
 
-            Assert.Raises<FilledEventArgs>(handler => sut.Full += handler);
+            var evt = Assert.Raises<FilledEventArgs>(handler => sut.Full += handler, 
+                                            handler => sut.Full -= handler, 
+                                            ()=> { sut.Fill(110); });
+
+            Assert.Equal(9, evt.Arguments.Overflow);
             
         }
     }
