@@ -7,14 +7,18 @@ namespace XUnitTests
 {
     public class BucketShould
     {
+        private readonly Bucket _sut;
+
+        public BucketShould()
+        {
+            _sut = new Bucket();
+        }
+           
         [Fact]
         public void BucketCreateEmptyConstructor()
         {
-            //assign
-            Bucket sut = new Bucket();
-
-            Assert.True(sut.Capacity == 100);
-            Assert.True(sut.Content == 0);
+            Assert.True(_sut.Capacity == 100);
+            Assert.True(_sut.Content == 0);
         }
 
         [Fact]
@@ -29,21 +33,18 @@ namespace XUnitTests
         [Fact]
         public void FillBucketUnderCapacity()
         {
-            Bucket sut = new Bucket();
 
-            sut.Fill(10);
+            _sut.Fill(10);
 
-            Assert.Equal(10, sut.Content);
+            Assert.Equal(10, _sut.Content);
         }
 
         [Fact]
         public void RaiseFullEvent()
         {
-            Bucket sut = new Bucket();
-
-            var evt = Assert.Raises<FilledEventArgs>(handler => sut.Full += handler, 
-                                            handler => sut.Full -= handler, 
-                                            ()=> { sut.Fill(110); });
+            var evt = Assert.Raises<FilledEventArgs>(handler => _sut.Full += handler, 
+                                            handler => _sut.Full -= handler, 
+                                            ()=> { _sut.Fill(110); });
 
             Assert.Equal(10, evt.Arguments.Overflow);
         }
@@ -51,23 +52,17 @@ namespace XUnitTests
         [Fact]
         public void FillBucketWithBucket()
         {
-            Bucket sut = new Bucket();
+            _sut.Fill(new Bucket(content: 10));
 
-            sut.Fill(new Bucket(content: 10));
-
-            Assert.Equal(10, sut.Content);
+            Assert.Equal(10, _sut.Content);
         }
 
         [Fact]
         public void EmptyBucket()
         {
-            Bucket sut = new Bucket();
+            _sut.Empty();
 
-            sut.Empty();
-
-            Assert.Equal(0, sut.Content);
+            Assert.Equal(0, _sut.Content);
         }
-
-        
     }
 }
